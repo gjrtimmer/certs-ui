@@ -17,13 +17,10 @@ push = false
 "bumpver.toml" = [
     'current_version = "{version}"',
 ]
-"main.py" = [
-    '__version__ = "{version}"',
-]
-"charts/traefik-certmanager/Chart.yaml" = [
+"charts/certs-ui/Chart.yaml" = [
     'version: {version}',
     'appVersion: "{version}"',
 ]
-"charts/traefik-certmanager/templates/deployment.yaml" = [
+"charts/certs-ui/templates/deployment.yaml" = [
     'image: "{{ .Values.image.repository }}:{version}"',
 ]
