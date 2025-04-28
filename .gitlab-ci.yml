@@ -1,0 +1,15 @@
+
+# yaml-language-server: $schema=https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json
+include:
+  - component: $CI_SERVER_FQDN/templates/components/workflow/default@0.4.0
+  - component: $CI_SERVER_FQDN/templates/components/publish/live@0.6.0
+  - component: $CI_SERVER_FQDN/templates/components/renovate/renovate@0.9.0
+  - component: $CI_SERVER_FQDN/templates/components/docker/arm64@1.7.0
+    inputs:
+      tag: $DOCKER_IMAGE_PATH:latest
+  - component: $CI_SERVER_FQDN/templates/components/docker/arm64@1.7.0
+    rules:
+      - if: $CI_COMMIT_TAG
+    inputs:
+      name: release
+      tag: $DOCKER_IMAGE_PATH:$CI_COMMIT_TAG
