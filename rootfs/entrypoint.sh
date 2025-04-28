@@ -8,6 +8,19 @@ export PORTAL_DOMAIN="${PORTAL_DOMAIN:-certs.k3s}"
 # Create certs directory if it doesn't exist
 mkdir -p /usr/share/nginx/html/certs
 
+# Start cert sync in background
+echo "Starting background cert sync..."
+/usr/share/nginx/html/scripts/sync-certs.sh &
+
+# Wait for initial certificate to be available
+echo "Waiting for initial CA certificate to be available..."
+until [ -s /usr/share/nginx/html/certs/ca-root.pem ]; do
+  echo "Waiting for ca-root.pem..."
+  sleep 2
+done
+
+echo "CA certificate available."
+
 # Clean up old generated scripts and mobileconfig
 find /usr/share/nginx/html/scripts/ -type f ! -name "*.tmpl" -delete
 
