@@ -1,0 +1,29 @@
+[bumpver]
+current_version = "2.1.0"
+version_pattern = "MAJOR.MINOR.PATCH[-PYTAGNUM]"
+commit_message = "release: {new_version}"
+tag_message = "Release: {new_version}"
+tag_scope = "default"
+pre_commit_hook = ""
+post_commit_hook = ""
+commit = false
+tag = false
+push = false
+
+[bumpver.file_patterns]
+"README.md" = [
+    "{version}"
+]
+"bumpver.toml" = [
+    'current_version = "{version}"',
+]
+"main.py" = [
+    '__version__ = "{version}"',
+]
+"charts/traefik-certmanager/Chart.yaml" = [
+    'version: {version}',
+    'appVersion: "{version}"',
+]
+"charts/traefik-certmanager/templates/deployment.yaml" = [
+    'image: "{{ .Values.image.repository }}:{version}"',
+]
