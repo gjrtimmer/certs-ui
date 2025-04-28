@@ -1,13 +1,14 @@
 #!/bin/bash
+# shellcheck shell=bash disable=SC2086
 set -e
 
 echo "Downloading internal CA certificate..."
-curl -fsSL -o ~/Downloads/internal-ca.pem https://certs.k3s/certs/ca-root.pem
+curl -fsSL -o ~/Downloads/internal-ca.pem https://${PORTAL_DOMAIN}/certs/ca-root.pem
 
 echo "Installing certificate into system keychain..."
 sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ~/Downloads/internal-ca.pem
 
-
 echo "Internal CA installed successfully."
+
 echo "Cleaning up downloaded certificate..."
-rm -f ~/Downloads/internal-ca.pem
+rm -f ~/Downloads/internal-ca.pem || true

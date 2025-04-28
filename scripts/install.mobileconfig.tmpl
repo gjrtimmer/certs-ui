@@ -9,14 +9,14 @@
       <string>Internal-CA.crt</string>
       <key>PayloadContent</key>
       <data>
-      INSERT_BASE64_CERT_HERE
+      ${CA_CERT_BASE64}
       </data>
       <key>PayloadDescription</key>
       <string>Adds the internal CA root certificate to the device.</string>
       <key>PayloadDisplayName</key>
       <string>Internal CA</string>
       <key>PayloadIdentifier</key>
-      <string>com.certs.k3s.internalca</string>
+      <string>com.${PORTAL_DOMAIN}.internalca</string>
       <key>PayloadType</key>
       <string>com.apple.security.root</string>
       <key>PayloadUUID</key>
@@ -26,9 +26,9 @@
     </dict>
   </array>
   <key>PayloadDisplayName</key>
-  <string>certs.k3s - Internal CA</string>
+  <string>${PORTAL_DOMAIN} - Internal CA</string>
   <key>PayloadIdentifier</key>
-  <string>com.certs.k3s</string>
+  <string>com.${PORTAL_DOMAIN}</string>
   <key>PayloadRemovalDisallowed</key>
   <false/>
   <key>PayloadType</key>

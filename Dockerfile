@@ -1,5 +1,9 @@
 FROM nginx:alpine
 
+# Install envsubst (part of gettext)
+# hadolint ignore=DL3018
+RUN apk add --no-cache gettext
+
 # Set up working directories
 WORKDIR /usr/share/nginx/html
 
@@ -8,7 +12,7 @@ COPY html/ /usr/share/nginx/html/
 COPY scripts/ /usr/share/nginx/html/scripts/
 COPY config/nginx.conf /etc/nginx/nginx.conf
 
-# Create certs directory
+# Ensure certs directory exists
 RUN mkdir -p /usr/share/nginx/html/certs
 
 # Copy entrypoint script
