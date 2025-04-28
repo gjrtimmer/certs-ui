@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>PayloadContent</key>
+  <array>
+    <dict>
+      <key>PayloadCertificateFileName</key>
+      <string>Internal-CA.crt</string>
+      <key>PayloadContent</key>
+      <data>
+      INSERT_BASE64_CERT_HERE
+      </data>
+      <key>PayloadDescription</key>
+      <string>Adds the internal CA root certificate to the device.</string>
+      <key>PayloadDisplayName</key>
+      <string>Internal CA</string>
+      <key>PayloadIdentifier</key>
+      <string>com.certs.k3s.internalca</string>
+      <key>PayloadType</key>
+      <string>com.apple.security.root</string>
+      <key>PayloadUUID</key>
+      <string>$(uuidgen)</string>
+      <key>PayloadVersion</key>
+      <integer>1</integer>
+    </dict>
+  </array>
+  <key>PayloadDisplayName</key>
+  <string>certs.k3s - Internal CA</string>
+  <key>PayloadIdentifier</key>
+  <string>com.certs.k3s</string>
+  <key>PayloadRemovalDisallowed</key>
+  <false/>
+  <key>PayloadType</key>
+  <string>Configuration</string>
+  <key>PayloadUUID</key>
+  <string>$(uuidgen)</string>
+  <key>PayloadVersion</key>
+  <integer>1</integer>
+</dict>
+</plist>
