@@ -31,7 +31,7 @@
                                 <td><code class="bg-body px-2 py-1 rounded" id="windows-install"></code></td>
                             </tr>
                             <tr>
-                                <td><strong>iOS/macOS Mobile:</strong></td>
+                                <td id="mobile-label"><strong>iOS/macOS Mobile:</strong></td>
                                 <td><a href="#" id="mobileprofile-link" class="btn btn-secondary btn-sm">Download Profile</a></td>
                             </tr>
                         </tbody>
@@ -73,7 +73,21 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById('windows-install').textContent = `irm ${windowsUrl} | iex`;
 
   const mobileLink = document.getElementById('mobileprofile-link');
-  mobileLink.href = mobileconfigUrl;
+  const mobileLabel = document.getElementById('mobile-label');
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  if (/android/i.test(userAgent)) {
+    mobileLink.href = caRootUrl;
+    mobileLink.textContent = "Download CA Certificate";
+    mobileLabel.innerHTML = "<strong>Android Mobile:</strong>";
+  } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+    mobileLink.href = mobileconfigUrl;
+    mobileLink.textContent = "Download Profile";
+    mobileLabel.innerHTML = "<strong>iOS/macOS Mobile:</strong>";
+  } else {
+    mobileLink.href = mobileconfigUrl;
+    mobileLink.textContent = "Download Profile";
+    mobileLabel.innerHTML = "<strong>iOS/macOS Mobile:</strong>";
+  }
 
   const caDownloadLink = document.getElementById('ca-download-link');
   caDownloadLink.href = caRootUrl;
