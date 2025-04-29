@@ -65,7 +65,7 @@ spec:
           - name: CERT_NAMESPACE
             value: {{ .Values.options.certNamespace | quote | default "cert-manager" }}
           - name: SYNC_INTERVAL_SECONDS
-            value: {{ .Values.options.syncIntervalSeconds | default 300 }}
+            value: {{ .Values.options.syncIntervalSeconds | quote | default "300" }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
