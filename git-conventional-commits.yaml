@@ -27,6 +27,7 @@ changelog:
   - deps
   - chore
   - ops
+  - chart
   includeInvalidCommits: false
   commitIgnoreRegexPattern: "^WIP "
   headlines:
