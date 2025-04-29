@@ -6,9 +6,7 @@ metadata:
   labels:
     {{- include "certs-ui.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  replicas: {{ .Values.replicaCount | default 1}}
   selector:
     matchLabels:
       {{- include "certs-ui.selectorLabels" . | nindent 6 }}
