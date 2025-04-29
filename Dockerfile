@@ -17,7 +17,7 @@ WORKDIR /usr/share/nginx/html
 COPY rootfs/ /
 
 RUN chmod +x /entrypoint.sh && \
-    chmod +x /usr/share/nginx/html/scripts/*.sh
+    chmod +x /usr/bin/sync-certs.sh
 
 # Expose HTTP port
 EXPOSE 80

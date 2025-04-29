@@ -10,7 +10,7 @@ mkdir -p /usr/share/nginx/html/certs
 
 # Start cert sync in background
 echo "Starting background cert sync..."
-/usr/share/nginx/html/scripts/sync-certs.sh &
+sync-certs.sh &
 
 # Wait for initial certificate to be available
 echo "Waiting for initial CA certificate to be available..."
