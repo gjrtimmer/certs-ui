@@ -1,4 +1,4 @@
-{{- if .Values.ingress.enabled -}}
+{{- if and .Values.ingress.enabled (not .Values.ingress.traefik) }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -12,16 +12,6 @@ metadata:
 spec:
   {{- with .Values.ingress.className }}
   ingressClassName: {{ . }}
-  {{- end }}
-  {{- if .Values.ingress.tls }}
-  tls:
-    {{- range .Values.ingress.tls }}
-    - hosts:
-        {{- range .hosts }}
-        - {{ . | quote }}
-        {{- end }}
-      secretName: {{ .secretName }}
-    {{- end }}
   {{- end }}
   rules:
     {{- range .Values.ingress.hosts }}

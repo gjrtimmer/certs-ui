@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "certs-ui.fullname" . }}
+  namespace: {{ .Release.Namespace }}
   labels:
     {{- include "certs-ui.labels" . | nindent 4 }}
 spec:
@@ -38,7 +39,7 @@ spec:
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.image.repository }}:1.0.0"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
@@ -56,14 +57,17 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.volumeMounts }}
-          volumeMounts:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-      {{- with .Values.volumes }}
-      volumes:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+          env:
+          - name: PORTAL_DOMAIN
+            value: {{ .Values.options.portalDomain | quote | default "certs.k3s" }}
+          - name: CERT_SECRET_NAME
+            value: {{ .Values.options.certSecretName | quote | default "internal-ca" }}
+          - name: CERT_SECRET_KEY
+            value: {{ .Values.options.certSecretKey | quote | default "ca.crt" }}
+          - name: CERT_NAMESPACE
+            value: {{ .Values.options.certNamespace | quote | default "cert-manager" }}
+          - name: SYNC_INTERVAL_SECONDS
+            value: {{ .Values.options.syncIntervalSeconds | default 300 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
