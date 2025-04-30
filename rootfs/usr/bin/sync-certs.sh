@@ -28,7 +28,7 @@ while true; do
     SKIP=true
   fi
 
-  if [ -f /usr/share/nginx/html/scripts/install.mobileconfig.tmpl ] && ! $SKIP; then
+  if [ -f "/usr/share/nginx/html/scripts/install.mobileconfig.tmpl" ] && ! $SKIP; then
     echo "[sync-certs] Regenerating mobileconfig with new cert..."
     export CA_CERT_BASE64="$(base64 -w 0 "$CERT_PATH")"
     envsubst '${PORTAL_DOMAIN} ${CA_CERT_BASE64}' < /usr/share/nginx/html/scripts/install.mobileconfig.tmpl > /usr/share/nginx/html/scripts/install.mobileconfig
