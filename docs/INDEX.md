@@ -7,8 +7,6 @@ permalink: index.html
 
 Provide a UI for clients to install a self-signed certificate for a Kubernetes Cluster.
 
-> [!NOTE]
-> 
 > **Current Version: 0.1.0**
 
 ### Install (helm)
