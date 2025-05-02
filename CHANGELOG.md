@@ -1,3 +1,15 @@
+## **1.1.0**&emsp;<sub><sup>2025-05-02 ([6b98675...e64df04](https://github.com/gjrtimmer/certs-ui/compare/6b98675d450d6327db5639758e408bc072fa471a...e64df04016e549dccf31ffb419b314f8b6f2a1ff?diff=split))</sup></sub>
+
+### chart
+
+- 1\.0\.0 ([6b98675](https://github.com/gjrtimmer/certs-ui/commit/6b98675d450d6327db5639758e408bc072fa471a))
+
+### Features
+
+- implement portalScheme ([e64df04](https://github.com/gjrtimmer/certs-ui/commit/e64df04016e549dccf31ffb419b314f8b6f2a1ff))
+
+<br>
+
 ## **1.0.0**&emsp;<sub><sup>2025-05-02 ([2b9842b...c183cb6](https://github.com/gjrtimmer/certs-ui/compare/2b9842b83b0986af7b933b0a437568733a402dee...c183cb6bc75d7a31bfd5b895130ced1da14e9d5a?diff=split))</sup></sub>
 
 ### chart
