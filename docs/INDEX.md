@@ -45,6 +45,8 @@ releases:
 
 #### values.yaml
 
+When setting up the `Ingress` or `IngressRoute` (Traefik) ensure that you are serving this from either a `LetsEncrypt` or when using an internal self-signed certificate that the entrypoint is `http`.
+
 ```yaml
 options:
   portalDomain: certs.k3s
@@ -52,4 +54,45 @@ options:
   certSecretKey: ca.crt
   certNamespace: cert-manager
   syncIntervalSeconds: 300
+```
+
+##### Ingress
+
+```yaml
+ingress:
+  enabled: true
+  traefik:
+    enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: certs.k3s
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+
+options:
+  portalDomain: certs.k3s
+  certSecretName: internal-ca
+  certSecretKey: ca.crt
+  certNamespace: cert-manager
+  syncIntervalSeconds: 300
+```
+
+##### Traefik IngressRoute
+
+```yaml
+ingress:
+  enabled: true
+  traefik:
+    enabled: true
+    entryPoints:
+      - http
+  className: traefik-internal
+  annotations:
+    cert-manager.io/ignore: "true"
+  hosts:
+    - host: certs.k3s
 ```
