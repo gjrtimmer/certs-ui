@@ -1,3 +1,16 @@
+## **1.1.1**&emsp;<sub><sup>2025-05-02 ([808de4b...982d053](https://github.com/gjrtimmer/certs-ui/compare/808de4b230295a27c8341e99134a80d6c7293986...982d0532f46c10c63bcf8ac05b2d991b52726768?diff=split))</sup></sub>
+
+### chart
+
+- 1\.1\.0 ([808de4b](https://github.com/gjrtimmer/certs-ui/commit/808de4b230295a27c8341e99134a80d6c7293986))
+
+### Bug Fixes
+
+- default value for portalScheme ([3fca8e3](https://github.com/gjrtimmer/certs-ui/commit/3fca8e3fbabbc1b0e6c9fc37d5e73a05ab59dc9b))
+- replace envar ([982d053](https://github.com/gjrtimmer/certs-ui/commit/982d0532f46c10c63bcf8ac05b2d991b52726768))
+
+<br>
+
 ## **1.1.0**&emsp;<sub><sup>2025-05-02 ([6b98675...e64df04](https://github.com/gjrtimmer/certs-ui/compare/6b98675d450d6327db5639758e408bc072fa471a...e64df04016e549dccf31ffb419b314f8b6f2a1ff?diff=split))</sup></sub>
 
 ### chart
