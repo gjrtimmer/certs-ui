@@ -104,6 +104,7 @@ tolerations: []
 affinity: {}
 
 options:
+  portalScheme: https
   portalDomain: certs.k3s
   certSecretName: internal-ca
   certSecretKey: ca.crt
