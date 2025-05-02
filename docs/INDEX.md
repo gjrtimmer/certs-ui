@@ -88,6 +88,7 @@ ingress:
   enabled: true
   traefik:
     enabled: true
+    priority: 2000 # set priority to override https redirect
     entryPoints:
       - http
   className: traefik-internal

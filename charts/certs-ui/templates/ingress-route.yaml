@@ -24,6 +24,9 @@ spec:
     - match: Host(`{{ (index .Values.ingress.hosts 0).host }}`)
       kind: Rule
       middlewares:
+      {{- if .Values.ingress.traefik.priority }}
+      priority: {{ .Values.ingress.traefik.priority }}
+      {{- end }}
       services:
         - name: {{ include "certs-ui.fullname" . }}
           port: {{ .Values.service.port }}
