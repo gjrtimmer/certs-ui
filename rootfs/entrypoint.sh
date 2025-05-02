@@ -2,7 +2,7 @@
 # shellcheck shell=bash disable=SC2016,SC2155
 set -e
 
-# Ensure PORTAL_DOMAIN is set
+export PORTAL_SCHEME="${PORTAL_SCHEME:-https}"
 export PORTAL_DOMAIN="${PORTAL_DOMAIN:-certs.k3s}"
 
 # Create certs directory if it doesn't exist
@@ -29,6 +29,7 @@ for template in /usr/share/nginx/html/scripts/*.tmpl; do
   [ -e "$template" ] || continue
   output="/usr/share/nginx/html/scripts/$(basename "$template" .tmpl)"
   echo "Generating script from template: $(basename "$output")"
+  envsubst '${PORTAL_SCHEME}' < "$template" > "$output"
   envsubst '${PORTAL_DOMAIN}' < "$template" > "$output"
   chmod +x "$output"
 done

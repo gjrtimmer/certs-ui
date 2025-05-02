@@ -1,6 +1,6 @@
 
 Write-Output "Downloading internal CA certificate..."
-$certUrl = "https://${PORTAL_DOMAIN}/certs/ca-root.pem"
+$certUrl = "${PORTAL_SCHEME}://${PORTAL_DOMAIN}/certs/ca-root.pem"
 $certPath = "$env:TEMP\internal-ca.cer"
 Invoke-WebRequest -Uri $certUrl -OutFile $certPath
 
