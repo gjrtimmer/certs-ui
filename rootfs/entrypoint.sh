@@ -29,8 +29,7 @@ for template in /usr/share/nginx/html/scripts/*.tmpl; do
   [ -e "$template" ] || continue
   output="/usr/share/nginx/html/scripts/$(basename "$template" .tmpl)"
   echo "Generating script from template: $(basename "$output")"
-  envsubst '${PORTAL_SCHEME}' < "$template" > "$output"
-  envsubst '${PORTAL_DOMAIN}' < "$template" > "$output"
+  envsubst '${PORTAL_SCHEME} ${PORTAL_DOMAIN}' < "$template" > "$output"
   chmod +x "$output"
 done
 
