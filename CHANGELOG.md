@@ -1,3 +1,15 @@
+## **1.0.0**&emsp;<sub><sup>2025-05-02 ([2b9842b...c183cb6](https://github.com/gjrtimmer/certs-ui/compare/2b9842b83b0986af7b933b0a437568733a402dee...c183cb6bc75d7a31bfd5b895130ced1da14e9d5a?diff=split))</sup></sub>
+
+### chart
+
+- 0\.1\.0 ([2b9842b](https://github.com/gjrtimmer/certs-ui/commit/2b9842b83b0986af7b933b0a437568733a402dee))
+
+### Features
+
+- set ingressroute priority ([c183cb6](https://github.com/gjrtimmer/certs-ui/commit/c183cb6bc75d7a31bfd5b895130ced1da14e9d5a))
+
+<br>
+
 ## **0.1.0**&emsp;<sub><sup>2025-05-01 ([1417f38...7a04552](https://github.com/gjrtimmer/certs-ui/compare/1417f38bbe5a3f52ae9c3927122e95ca089ab14c...7a0455274a5902cb681fcf63a779e712cc644ecc?diff=split))</sup></sub>
 
 ### Maintenance
