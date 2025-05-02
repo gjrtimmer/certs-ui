@@ -2,6 +2,17 @@ apiVersion: v1
 entries:
   certs-ui:
   - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-05-02T15:45:32.543134593Z"
+    description: Provide a UI for clients to install a self-signed certificate for
+      a Kubernetes Cluster
+    digest: ba73520545ed035dbe253249e353453fdda4c7f9a8e75a9e2335ec727d6bfd96
+    name: certs-ui
+    type: application
+    urls:
+    - https://github.com/gjrtimmer/certs-ui/releases/download/1.0.0/certs-ui-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
     appVersion: 0.1.0
     created: "2025-05-01T13:56:21.959570737Z"
     description: Provide a UI for clients to install a self-signed certificate for
@@ -12,4 +23,4 @@ entries:
     urls:
     - https://github.com/gjrtimmer/certs-ui/releases/download/0.1.0/certs-ui-0.1.0.tgz
     version: 0.1.0
-generated: "2025-05-01T13:56:21.959575076Z"
+generated: "2025-05-02T15:45:32.543142187Z"
