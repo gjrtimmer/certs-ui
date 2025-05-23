@@ -60,10 +60,8 @@ spec:
             value: {{ .Values.options.portalScheme | quote | default "https" }}
           - name: PORTAL_DOMAIN
             value: {{ .Values.options.portalDomain | quote | default "certs.k3s" }}
-          - name: CERT_SECRET_NAME
-            value: {{ .Values.options.certSecretName | quote | default "internal-ca" }}
-          - name: CERT_SECRET_KEY
-            value: {{ .Values.options.certSecretKey | quote | default "ca.crt" }}
+          - name: CERT_LIST_JSON
+            value: '{{ toJson .Values.options.certs }}'
           - name: CERT_NAMESPACE
             value: {{ .Values.options.certNamespace | quote | default "cert-manager" }}
           - name: SYNC_INTERVAL_SECONDS

@@ -3,13 +3,13 @@
 set -e
 
 echo "Downloading internal CA certificate..."
-curl -fsSL -o /tmp/ca-root.pem ${PORTAL_SCHEME}://${PORTAL_DOMAIN}/certs/ca-root.pem
+curl -fsSL -o /tmp/chain.pem ${PORTAL_SCHEME}://${PORTAL_DOMAIN}/certs/chain.pem
 
 echo "Installing certificate..."
-sudo cp /tmp/ca-root.pem /usr/local/share/ca-certificates/internal-ca.crt
+sudo cp /tmp/chain.pem /usr/local/share/ca-certificates/internal-chain.crt
 sudo update-ca-certificates
 
 echo "Internal CA installed successfully."
 
 echo "Cleaning up downloaded certificate..."
-rm -f /tmp/ca-root.pem || true
+rm -f /tmp/chain.pem || true

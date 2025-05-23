@@ -39,11 +39,7 @@
                 </div>
 
                 <h2 class="h4 mb-3">Manual Downloads:</h2>
-                <ul class="list-group list-group-flush mb-4">
-                    <li class="list-group-item bg-body text-body">
-                        <a href="#" id="ca-download-link" class="btn btn-primary btn-sm">Download CA Root Certificate</a>
-                    </li>
-                </ul>
+                <ul class="list-group list-group-flush mb-4" id="cert-downloads"></ul>
 
                 <p class="fst-italic">If you have trouble, contact your administrator.</p>
             </div>
@@ -91,6 +87,21 @@ document.addEventListener("DOMContentLoaded", function() {
 
   const caDownloadLink = document.getElementById('ca-download-link');
   caDownloadLink.href = caRootUrl;
+
+  const certListElement = document.getElementById("cert-list");
+  const certs = JSON.parse(certListElement.textContent || "[]");
+
+  const downloadList = document.getElementById("cert-downloads");
+  certs.forEach(name => {
+    const li = document.createElement("li");
+    li.className = "list-group-item bg-body text-body";
+    const a = document.createElement("a");
+    a.href = `${baseUrl}/certs/${name}.pem`;
+    a.className = name === "chain" ? "btn btn-primary btn-sm" : "btn btn-secondary btn-sm";
+    a.textContent = `Download ${name.charAt(0).toUpperCase() + name.slice(1)} Certificate`;
+    li.appendChild(a);
+    downloadList.appendChild(li);
+  });
 });
 </script>
 </body>
