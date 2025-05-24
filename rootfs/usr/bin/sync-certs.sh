@@ -47,7 +47,9 @@ while true; do
       echo >> "$DEST"
     done < <(echo "$CERT_LIST_JSON" | jq -c '.[]')
 
-    cat "$CERT_DIR"/*.pem > "$CERT_DIR/tmp_chain.pem" && \
+    cat "$CERT_DIR"/*.pem > "$CERT_DIR/tmp_chain.pem.cat" && \
+    mv "$CERT_DIR/tmp_chain.pem.cat" "$CERT_DIR/tmp_chain.pem" && \
+
     csplit -f /tmp/cert "$CERT_DIR/tmp_chain.pem" '/-----BEGIN CERTIFICATE-----/' '{*}' >/dev/null 2>&1
 
     # Reset chain and fingerprints file
