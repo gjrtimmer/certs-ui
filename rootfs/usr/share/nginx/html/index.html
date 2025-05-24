@@ -98,14 +98,8 @@ document.addEventListener("DOMContentLoaded", function() {
       return a.localeCompare(b);
     });
 
-  let insertedHr = false;
   sortedCerts.forEach((name, index) => {
     const baseName = name.replace(/\.pem$/, "");
-    if (!insertedHr && index > 0 && name.toLowerCase().includes("root")) {
-      const hr = document.createElement("hr");
-      downloadList.appendChild(hr);
-      insertedHr = true;
-    }
     const li = document.createElement("li");
     li.className = "list-group-item bg-body text-body";
     const a = document.createElement("a");
