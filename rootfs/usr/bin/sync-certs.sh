@@ -45,16 +45,20 @@ while true; do
     done < <(echo "$CERT_LIST_JSON" | jq -c '.[]')
 
     cat "$CERT_DIR"/*.pem > "$CERT_DIR/tmp_chain.pem"
-    awk 'BEGIN {c=0} /BEGIN CERT/ {c++} {print > ("/tmp/cert" c ".pem")}' "$CERT_DIR/tmp_chain.pem"
+    csplit -f /tmp/cert "$CERT_DIR/tmp_chain.pem" '/-----BEGIN CERTIFICATE-----/' '{*}' >/dev/null 2>&1
     rm -f "$CERT_DIR/chain.pem"
-    for f in /tmp/cert*.pem; do
-      sum=$(openssl x509 -in "$f" -noout -fingerprint -sha256)
-      if ! grep -q "$sum" "$CERT_DIR/chain.pem.fingerprints" 2>/dev/null; then
-        cat "$f" >> "$CERT_DIR/chain.pem"
-        echo "$sum" >> "$CERT_DIR/chain.pem.fingerprints"
+    for f in /tmp/cert*; do
+      if openssl x509 -in "$f" -noout >/dev/null 2>&1; then
+        sum=$(openssl x509 -in "$f" -noout -fingerprint -sha256)
+        if ! grep -q "$sum" "$CERT_DIR/chain.pem.fingerprints" 2>/dev/null; then
+          cat "$f" >> "$CERT_DIR/chain.pem"
+          echo "$sum" >> "$CERT_DIR/chain.pem.fingerprints"
+        fi
+      else
+        echo "[sync-certs] Skipping non-certificate chunk: $f"
       fi
     done
-    rm -f /tmp/cert*.pem "$CERT_DIR/tmp_chain.pem"
+    rm -f /tmp/cert* "$CERT_DIR/tmp_chain.pem"
   else
     echo "[sync-certs] WARNING: Kubernetes API not reachable, skipping cert sync."
     SKIP=true
