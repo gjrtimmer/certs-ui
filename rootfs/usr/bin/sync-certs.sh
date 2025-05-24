@@ -25,8 +25,8 @@ while true; do
 
   if kubectl get --raw=/healthz > /dev/null 2>&1; then
     echo "[sync-certs] Kubernetes API is reachable, fetching certs..."
-    echo -n > "$CERT_DIR/chain.pem"
-    > "$CERT_DIR/chain.pem.fingerprints"
+    : > "$CERT_DIR/chain.pem"
+    : > "$CERT_DIR/chain.pem.fingerprints"
     while read -r cert; do
       NAME=$(echo "$cert" | jq -r '.name')
       SECRET=$(echo "$cert" | jq -r '.secretName')
