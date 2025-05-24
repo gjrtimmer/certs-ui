@@ -20,7 +20,7 @@ while true; do
   if kubectl get --raw=/healthz > /dev/null 2>&1; then
     echo "[sync-certs] Kubernetes API is reachable, fetching certs..."
     echo -n > "$CERT_DIR/chain.pem"
-    echo "$CERT_LIST_JSON" | jq -c '.[]' | while read -r cert; do
+    while read -r cert; do
       NAME=$(echo "$cert" | jq -r '.name')
       SECRET=$(echo "$cert" | jq -r '.secretName')
       KEY=$(echo "$cert" | jq -r '.secretKey')
@@ -33,7 +33,7 @@ while true; do
       else
         echo "[sync-certs] Failed to fetch $NAME"
       fi
-    done
+    done < <(echo "$CERT_LIST_JSON" | jq -c '.[]')
   else
     echo "[sync-certs] WARNING: Kubernetes API not reachable, skipping cert sync."
     SKIP=true
