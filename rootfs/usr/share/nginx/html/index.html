@@ -45,8 +45,8 @@
             </div>
         </div>
     </div>
-</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="cert-list.js"></script>
 <script>
 (function() {
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -62,7 +62,6 @@ document.addEventListener("DOMContentLoaded", function() {
   const macosUrl = `${baseUrl}/scripts/install-macos.sh`;
   const windowsUrl = `${baseUrl}/scripts/install-windows.ps1`;
   const mobileconfigUrl = `${baseUrl}/scripts/install.mobileconfig`;
-  const caRootUrl = `${baseUrl}/certs/ca-root.pem`;
 
   document.getElementById('linux-install').textContent = `curl -fsSL ${linuxUrl} | bash`;
   document.getElementById('macos-install').textContent = `curl -fsSL ${macosUrl} | bash`;
@@ -71,24 +70,21 @@ document.addEventListener("DOMContentLoaded", function() {
   const mobileLink = document.getElementById('mobileprofile-link');
   const mobileLabel = document.getElementById('mobile-label');
   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-  if (/android/i.test(userAgent)) {
-    mobileLink.href = caRootUrl;
+
+  const downloadList = document.getElementById("cert-downloads");
+
+  const certs = (window.CERT_LIST || "").split(",").map(x => x.trim()).filter(Boolean);
+
+  const rootCert = certs.find(c => c.toLowerCase().includes("root") && c.endsWith(".pem"));
+  if (/android/i.test(userAgent) && rootCert) {
+    mobileLink.href = `${baseUrl}/certs/${rootCert}`;
     mobileLink.textContent = "Download CA Certificate";
     mobileLabel.innerHTML = "<strong>Android Mobile:</strong>";
-  } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-    mobileLink.href = mobileconfigUrl;
-    mobileLink.textContent = "Download Profile";
-    mobileLabel.innerHTML = "<strong>iOS/macOS Mobile:</strong>";
   } else {
     mobileLink.href = mobileconfigUrl;
     mobileLink.textContent = "Download Profile";
     mobileLabel.innerHTML = "<strong>iOS/macOS Mobile:</strong>";
   }
-
-
-  const downloadList = document.getElementById("cert-downloads");
-
-  const certs = (window.CERT_LIST || "").split(",").map(x => x.trim()).filter(Boolean);
 
   certs
     .filter(name => name.endsWith(".pem") && name !== "tmp_chain.pem" && name !== "chain.pem.fingerprints")
