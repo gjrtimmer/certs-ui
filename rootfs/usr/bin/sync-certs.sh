@@ -36,16 +36,15 @@ while true; do
       echo "[sync-certs] Fetching $NAME from $SECRET:$KEY in $NAMESPACE"
       BASE64_DATA=$(kubectl get secret "$SECRET" -n "$NAMESPACE" -o json | jq -r ".data[\"$KEY\"]")
       if [[ -z "$BASE64_DATA" ]]; then
-        echo "[sync-certs] Empty base64 string for $NAME. Dumping full raw data:" >&2
-        kubectl get secret "$SECRET" -n "$NAMESPACE" -o json >&2
         echo "[sync-certs] No data found for $NAME from $SECRET in $NAMESPACE"
         continue
       fi
 
       echo "$BASE64_DATA" | base64 -d > "$DEST" || { echo "[sync-certs] base64 decoding failed for $NAME"; continue; }
-      echo "[sync-certs] Wrote $(wc -c < "$DEST") bytes to $DEST"
-      if ! grep -Fq "$(openssl x509 -in "$DEST" -noout -serial)" "$CERT_DIR/chain.pem" 2>/dev/null; then
-        cat "$DEST" >> "$CERT_DIR/chain.pem"
+
+      CERT_CONTENT=$(cat "$DEST")
+      if ! grep -Fq "$CERT_CONTENT" "$CERT_DIR/chain.pem" 2>/dev/null; then
+        echo "$CERT_CONTENT" >> "$CERT_DIR/chain.pem"
         echo "" >> "$CERT_DIR/chain.pem"
       fi
     done < <(echo "$CERT_LIST_JSON" | jq -c '.[]')
