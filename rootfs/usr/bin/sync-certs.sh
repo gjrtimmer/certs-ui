@@ -25,8 +25,10 @@ while true; do
 
   if kubectl get --raw=/healthz > /dev/null 2>&1; then
     echo "[sync-certs] Kubernetes API is reachable, fetching certs..."
-    : > "$CERT_DIR/chain.pem"
-    : > "$CERT_DIR/chain.pem.fingerprints"
+    TMP_CHAIN="$CERT_DIR/tmp_chain.pem"
+    TMP_FP="$CERT_DIR/tmp_chain.pem.fingerprints"
+    > "$TMP_CHAIN"
+    > "$TMP_FP"
     while read -r cert; do
       NAME=$(echo "$cert" | jq -r '.name')
       SECRET=$(echo "$cert" | jq -r '.secretName')
@@ -60,22 +62,26 @@ while true; do
     csplit -f /tmp/cert "$CERT_DIR/tmp_chain.pem" '/-----BEGIN CERTIFICATE-----/' '{*}' >/dev/null 2>&1
 
     # Reset chain and fingerprints file
-    : > "$CERT_DIR/chain.pem"
-    : > "$CERT_DIR/chain.pem.fingerprints"
+    > "$TMP_CHAIN"
+    > "$TMP_FP"
 
     for f in /tmp/cert*; do
       if openssl x509 -in "$f" -noout >/dev/null 2>&1; then
-        sum=$(openssl x509 -in "$f" -noout -fingerprint -sha256 | sed 's/.*=//')
-        if ! grep -q "$sum" "$CERT_DIR/chain.pem.fingerprints"; then
-          cat "$f" >> "$CERT_DIR/chain.pem"
-          echo "$sum" >> "$CERT_DIR/chain.pem.fingerprints"
+        sum=$(openssl x509 -in "$f" -noout -fingerprint -sha256 | cut -d= -f2)
+        if ! grep -q "$sum" "$TMP_FP"; then
+          cat "$f" >> "$TMP_CHAIN"
+          echo "$sum" >> "$TMP_FP"
         fi
       else
         echo "[sync-certs] Skipping invalid certificate chunk: $f"
       fi
     done
 
-    rm -f /tmp/cert* "$CERT_DIR/tmp_chain.pem"
+    mv "$TMP_CHAIN" "$CERT_DIR/chain.pem"
+    mv "$TMP_FP" "$CERT_DIR/chain.pem.fingerprints"
+
+    rm -f /tmp/cert*
+    rm -f "$CERT_DIR/tmp_chain.pem"
   else
     echo "[sync-certs] WARNING: Kubernetes API not reachable, skipping cert sync."
     SKIP=true
