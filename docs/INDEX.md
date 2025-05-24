@@ -9,6 +9,8 @@ Provide a UI for clients to install a self-signed certificate for a Kubernetes C
 
 > **Current Version: 1.1.1**
 
+![alt Screenshot](./images/screenshot.png "Screenshot")
+
 ### Install (helm)
 
 Add repository to helm.
