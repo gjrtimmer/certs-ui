@@ -6,6 +6,12 @@ CERT_NAMESPACE="${CERT_NAMESPACE:-cert-manager}"
 SYNC_INTERVAL_SECONDS="${SYNC_INTERVAL_SECONDS:-300}"
 CERT_LIST_JSON="${CERT_LIST_JSON:-[]}"
 
+# Validate CERT_LIST_JSON
+if [[ -z "$CERT_LIST_JSON" || "$CERT_LIST_JSON" == "[]" ]]; then
+  echo "[sync-certs] CERT_LIST_JSON is empty. Exiting."
+  exit 1
+fi
+
 CERT_DIR="/usr/share/nginx/html/certs"
 
 if [[ ! -d "$CERT_DIR" ]]; then
@@ -27,20 +33,18 @@ while true; do
       NAMESPACE=$(echo "$cert" | jq -r '.namespace // env.CERT_NAMESPACE')
 
       DEST="$CERT_DIR/${NAME}.pem"
-      echo "[sync-certs] Fetching $NAME from $SECRET:$KEY"
-      BASE64_DATA=$(kubectl get secret "$SECRET" -n "$NAMESPACE" -o "jsonpath={.data.${KEY}}" 2>&1)
-      if echo "$BASE64_DATA" | grep -q "Error"; then
-        echo "[sync-certs] ERROR: $BASE64_DATA"
+      echo "[sync-certs] Fetching $NAME from $SECRET:$KEY in $NAMESPACE"
+      BASE64_DATA=$(kubectl get secret "$SECRET" -n "$NAMESPACE" -o "jsonpath={.data.${KEY}}" 2>/dev/null)
+
+      if [[ -z "$BASE64_DATA" ]]; then
+        echo "[sync-certs] No data found for $NAME from $SECRET in $NAMESPACE"
         continue
       fi
-      if [[ -n "$BASE64_DATA" ]]; then
-        echo "$BASE64_DATA" | base64 -d > "$DEST" || echo "[sync-certs] base64 decoding failed for $NAME"
-        echo "[sync-certs] Wrote $(wc -c < "$DEST") bytes to $DEST"
-        cat "$DEST" >> "$CERT_DIR/chain.pem"
-        echo "" >> "$CERT_DIR/chain.pem"
-      else
-        echo "[sync-certs] No data found for $NAME from $SECRET in $NAMESPACE"
-      fi
+
+      echo "$BASE64_DATA" | base64 -d > "$DEST" || { echo "[sync-certs] base64 decoding failed for $NAME"; continue; }
+      echo "[sync-certs] Wrote $(wc -c < "$DEST") bytes to $DEST"
+      cat "$DEST" >> "$CERT_DIR/chain.pem"
+      echo "" >> "$CERT_DIR/chain.pem"
     done < <(echo "$CERT_LIST_JSON" | jq -c '.[]')
   else
     echo "[sync-certs] WARNING: Kubernetes API not reachable, skipping cert sync."
