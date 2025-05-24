@@ -1,3 +1,53 @@
+## **2.0.0**&emsp;<sub><sup>2025-05-24 ([8643ac0...32c0d79](https://github.com/gjrtimmer/certs-ui/compare/8643ac0d44e72ae99d4b6a23318306fed7006e2b...32c0d79e48f6e3fddec89f03627d89c4bc66999e?diff=split))</sup></sub>
+
+### chart
+
+- 1\.1\.1 ([8643ac0](https://github.com/gjrtimmer/certs-ui/commit/8643ac0d44e72ae99d4b6a23318306fed7006e2b))
+
+### Features
+
+- add multiple intermediate certificates support ([49eeb85](https://github.com/gjrtimmer/certs-ui/commit/49eeb855c8bde1297e5aae67fe6eca517a333f2c))
+- add jq ([2cb8154](https://github.com/gjrtimmer/certs-ui/commit/2cb8154323702fca422eebd4329d848d3467896a))
+- add coreutils ([ab0a7ca](https://github.com/gjrtimmer/certs-ui/commit/ab0a7cab52e244dd6d083d996744ba4442e4fce5))
+
+### Bug Fixes
+
+- entrypoint ([a61589b](https://github.com/gjrtimmer/certs-ui/commit/a61589bb983796fff4ffaff925262ff357c48c1d))
+- sync\-certs ([b1d700e](https://github.com/gjrtimmer/certs-ui/commit/b1d700e1ea256a07ce919f7ad7d5e60e66572a33))
+- add default priority ([8679c6c](https://github.com/gjrtimmer/certs-ui/commit/8679c6c2115b598396c4346f2194f27286320b39))
+- portal scheme ([21e9289](https://github.com/gjrtimmer/certs-ui/commit/21e92894ab8b9031a33e64b2e4ace3a518c0ed82))
+- sync\-certs ([2468303](https://github.com/gjrtimmer/certs-ui/commit/24683036df9107e88fc463d02de7984dfc0f2f3a))
+- sync\-certs\.sh ([d7ad671](https://github.com/gjrtimmer/certs-ui/commit/d7ad6712635354a0aaea159a7adb27e995b3fa8a))
+- sync\-certs ([81b34e0](https://github.com/gjrtimmer/certs-ui/commit/81b34e09feff7d370583956ef167cbe2718639cd))
+- sync\-certs ([61410f7](https://github.com/gjrtimmer/certs-ui/commit/61410f712526dbe2b2e519f205797b5745421148))
+- sync\-certs ([43a4532](https://github.com/gjrtimmer/certs-ui/commit/43a4532ec9d50ad093cb61300d0f757a8a72e2b9))
+- sync\-certs ([8434c99](https://github.com/gjrtimmer/certs-ui/commit/8434c99ab71b247e250201859b3a4ba113c87048))
+- remove duplicates ([8f396ec](https://github.com/gjrtimmer/certs-ui/commit/8f396ecfe6736f17cc7524e160cd55221fea3519))
+- remove duplicates ([14e0bd2](https://github.com/gjrtimmer/certs-ui/commit/14e0bd2ff543ca503e5c6f6d076605c17b3105d7))
+- remove duplicates ([02e2555](https://github.com/gjrtimmer/certs-ui/commit/02e2555c2309330eac783bad217fac18a9e42e0b))
+- deduplicate ([9e3cf16](https://github.com/gjrtimmer/certs-ui/commit/9e3cf1610456484a24d788577a7c7e14f1a69ded))
+- add openssl ([30c1fcf](https://github.com/gjrtimmer/certs-ui/commit/30c1fcf2b9e8ddc8a6028f9bf3ad307c051b3cf9))
+- redirects ([3638176](https://github.com/gjrtimmer/certs-ui/commit/36381768829c9a3d15c83c1780b13a9db89e1c2d))
+- duplicates ([ede002b](https://github.com/gjrtimmer/certs-ui/commit/ede002b8acac6e2ae611d9398a29d1c795f67835))
+- duplicates ([1aaa5f2](https://github.com/gjrtimmer/certs-ui/commit/1aaa5f24e51bc61789536bf39aeced3ac47a7fd5))
+- sync\-certs ([5d3a55e](https://github.com/gjrtimmer/certs-ui/commit/5d3a55e0b465c97569dc4d694d7e4e53475b783a))
+- sync\-certs ([497e9e9](https://github.com/gjrtimmer/certs-ui/commit/497e9e95edfccbe60194474552ad063cffad072a))
+- sync\-certs ([608f296](https://github.com/gjrtimmer/certs-ui/commit/608f296b2a70e17a292cde132cd92fe46701615c))
+- sync\-certs ([1f2ec26](https://github.com/gjrtimmer/certs-ui/commit/1f2ec26031542b86755af8c262fa3e754c948cea))
+- sync\-certs ([5616709](https://github.com/gjrtimmer/certs-ui/commit/56167099e641f10d31aafcc6bdb6555a1c18bcfd))
+- manual downloads ([564854b](https://github.com/gjrtimmer/certs-ui/commit/564854b24b3a8599865f7e334a887a885e9afb6b))
+- portal manual downloads ([7e1d667](https://github.com/gjrtimmer/certs-ui/commit/7e1d66785237dfd6f70d517dbfd89ff8cbde42da))
+- manual downloads ([0542985](https://github.com/gjrtimmer/certs-ui/commit/05429854d491e6a1cd33991e067327a9218d75ec))
+- inject cert\-list ([7c99c09](https://github.com/gjrtimmer/certs-ui/commit/7c99c09e0b00a9ee8d67d7a5a00e34343c625373))
+- cert\-list\.js ([fc533a8](https://github.com/gjrtimmer/certs-ui/commit/fc533a82db911cf9737fe30543532051ebd993dc))
+- js/cert\-list\.js ([29578df](https://github.com/gjrtimmer/certs-ui/commit/29578df1a7242b421e7d638665830e18f9aa8da0))
+- cert\-list\.js ([7e6a38b](https://github.com/gjrtimmer/certs-ui/commit/7e6a38b4175d2c4fa274fab594ffd53db67fba07))
+- index manual downloads ([bf7a9a7](https://github.com/gjrtimmer/certs-ui/commit/bf7a9a726b39624a705790e68e14c45689aa827d))
+- remove hr ([f680515](https://github.com/gjrtimmer/certs-ui/commit/f68051510257c4df875640a12cd8e3bca4059a91))
+- disable list border ([cf99cc9](https://github.com/gjrtimmer/certs-ui/commit/cf99cc9f5fe6e13b4007bede26aa140d6b01815d))
+
+<br>
+
 ## **1.1.1**&emsp;<sub><sup>2025-05-02 ([808de4b...982d053](https://github.com/gjrtimmer/certs-ui/compare/808de4b230295a27c8341e99134a80d6c7293986...982d0532f46c10c63bcf8ac05b2d991b52726768?diff=split))</sup></sub>
 
 ### chart

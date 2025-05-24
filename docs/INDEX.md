@@ -7,7 +7,7 @@ permalink: index.html
 
 Provide a UI for clients to install a self-signed certificate for a Kubernetes Cluster.
 
-> **Current Version: 1.1.1**
+> **Current Version: 2.0.0**
 
 ![alt Screenshot](./images/screenshot.png "Screenshot")
 
@@ -39,7 +39,7 @@ releases:
 - name: certs-ui
   namespace: certs-ui
   chart: certs-ui/certs-ui
-  version: 1.1.1
+  version: 2.0.0
   installed: true
   values:
     - values.yaml
