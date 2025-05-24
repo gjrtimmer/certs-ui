@@ -104,7 +104,7 @@ tolerations: []
 affinity: {}
 
 options:
-  portalScheme: https
+  portalScheme: http
   portalDomain: certs.k3s
   certNamespace: cert-manager
   syncIntervalSeconds: 300
