@@ -34,7 +34,7 @@ while true; do
 
       DEST="$CERT_DIR/${NAME}.pem"
       echo "[sync-certs] Fetching $NAME from $SECRET:$KEY in $NAMESPACE"
-      BASE64_DATA=$(kubectl get secret "$SECRET" -n "$NAMESPACE" -o "jsonpath={.data.${KEY}}" 2>/dev/null)
+      BASE64_DATA=$(kubectl get secret "$SECRET" -n "$NAMESPACE" -o "jsonpath={.data['${KEY}']}" 2>/dev/null)
       if [[ -z "$BASE64_DATA" ]]; then
         echo "[sync-certs] Empty base64 string for $NAME. Dumping full raw data:" >&2
         kubectl get secret "$SECRET" -n "$NAMESPACE" -o json >&2
