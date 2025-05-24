@@ -4,7 +4,7 @@ ARG TARGETARCH
 
 # Install envsubst (part of gettext)
 # hadolint ignore=DL3018
-RUN apk add --no-cache gettext kubectl wget ca-certificates bash jq openssl
+RUN apk add --no-cache gettext kubectl wget ca-certificates bash jq openssl coreutils
 
 # Install kubectl (needed for sync-certs)
 RUN wget -qO /usr/local/bin/kubectl https://dl.k8s.io/release/v1.28.2/bin/linux/${TARGETARCH}/kubectl && \
