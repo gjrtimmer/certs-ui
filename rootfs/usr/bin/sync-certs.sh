@@ -27,8 +27,8 @@ while true; do
     echo "[sync-certs] Kubernetes API is reachable, fetching certs..."
     TMP_CHAIN="$CERT_DIR/tmp_chain.pem"
     TMP_FP="$CERT_DIR/tmp_chain.pem.fingerprints"
-    > "$TMP_CHAIN"
-    > "$TMP_FP"
+    : > "$TMP_CHAIN"
+    : > "$TMP_FP"
     while read -r cert; do
       NAME=$(echo "$cert" | jq -r '.name')
       SECRET=$(echo "$cert" | jq -r '.secretName')
@@ -53,10 +53,11 @@ while true; do
     csplit -f /tmp/cert "$CERT_DIR/tmp_chain.pem" '/-----BEGIN CERTIFICATE-----/' '{*}' >/dev/null 2>&1
 
     # Reset chain and fingerprints file
-    > "$TMP_CHAIN"
-    > "$TMP_FP"
+    : > "$TMP_CHAIN"
+    : > "$TMP_FP"
 
     for f in /tmp/cert*; do
+      [[ "$f" == "/tmp/cert00" ]] && continue
       if openssl x509 -in "$f" -noout >/dev/null 2>&1; then
         sum=$(openssl x509 -in "$f" -noout -fingerprint -sha256 | cut -d= -f2)
         if ! grep -q "$sum" "$TMP_FP"; then
