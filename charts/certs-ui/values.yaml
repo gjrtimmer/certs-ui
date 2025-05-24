@@ -60,7 +60,7 @@ service:
 ingress:
   enabled: false
   traefik:
-    enabled: false
+    priority: 2000
     entryPoints:
       - web
 
