@@ -12,14 +12,14 @@ mkdir -p /usr/share/nginx/html/certs
 echo "Starting background cert sync..."
 /usr/bin/sync-certs.sh &
 
-# Wait for all required certificate files
-echo "Waiting for all required certificate files..."
-until ls /usr/share/nginx/html/certs/*.pem >/dev/null 2>&1 && [ "$(ls -1 /usr/share/nginx/html/certs/*.pem | wc -l)" -ge 2 ]; do
-  echo "Waiting for certificate files..."
+# Wait for chain.pem certificate file
+echo "Waiting for chain.pem certificate file..."
+until [ -s /usr/share/nginx/html/certs/chain.pem ]; do
+  echo "Waiting for chain.pem..."
   sleep 2
 done
 
-echo "CA certificate available."
+echo "chain.pem certificate available."
 
 # Clean up old generated scripts and mobileconfig
 find /usr/share/nginx/html/scripts/ -type f ! -name "*.tmpl" -delete
@@ -34,10 +34,11 @@ for template in /usr/share/nginx/html/scripts/*.tmpl; do
 done
 
 # Handle mobileconfig separately
-if [ -f /usr/share/nginx/html/certs/root.pem ] && [ -f /usr/share/nginx/html/scripts/install.mobileconfig.tmpl ]; then
+if [ -f /usr/share/nginx/html/certs/chain.pem ] && [ -f /usr/share/nginx/html/scripts/install.mobileconfig.tmpl ]; then
   echo "Generating mobileconfig..."
-  export CA_CERT_BASE64="$(base64 -w 0 /usr/share/nginx/html/certs/root.pem)"
-  envsubst '${PORTAL_DOMAIN} ${CA_CERT_BASE64}' < /usr/share/nginx/html/scripts/install.mobileconfig.tmpl > /usr/share/nginx/html/scripts/install.mobileconfig
+  export CA_CERT_BASE64="$(base64 -w 0 /usr/share/nginx/html/certs/chain.pem)"
+  export CA_CERT_FILENAME="chain.pem"
+  envsubst '${PORTAL_DOMAIN} ${CA_CERT_BASE64} ${CA_CERT_FILENAME}' < /usr/share/nginx/html/scripts/install.mobileconfig.tmpl > /usr/share/nginx/html/scripts/install.mobileconfig
 fi
 
 # Start Nginx
