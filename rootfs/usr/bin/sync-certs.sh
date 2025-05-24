@@ -41,13 +41,13 @@ while true; do
         echo "[sync-certs] No data found for $NAME from $SECRET in $NAMESPACE"
         continue
       fi
-      echo "[sync-certs] Raw kubectl output for $SECRET in $NAMESPACE:" >&2
-      kubectl get secret "$SECRET" -n "$NAMESPACE" -o yaml >&2
 
       echo "$BASE64_DATA" | base64 -d > "$DEST" || { echo "[sync-certs] base64 decoding failed for $NAME"; continue; }
       echo "[sync-certs] Wrote $(wc -c < "$DEST") bytes to $DEST"
-      cat "$DEST" >> "$CERT_DIR/chain.pem"
-      echo "" >> "$CERT_DIR/chain.pem"
+      grep -qFxf "$DEST" "$CERT_DIR/chain.pem" || {
+        cat "$DEST" >> "$CERT_DIR/chain.pem"
+        echo "" >> "$CERT_DIR/chain.pem"
+      }
     done < <(echo "$CERT_LIST_JSON" | jq -c '.[]')
   else
     echo "[sync-certs] WARNING: Kubernetes API not reachable, skipping cert sync."
