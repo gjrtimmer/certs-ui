@@ -26,6 +26,7 @@ while true; do
   if kubectl get --raw=/healthz > /dev/null 2>&1; then
     echo "[sync-certs] Kubernetes API is reachable, fetching certs..."
     echo -n > "$CERT_DIR/chain.pem"
+    > "$CERT_DIR/chain.pem.fingerprints"
     while read -r cert; do
       NAME=$(echo "$cert" | jq -r '.name')
       SECRET=$(echo "$cert" | jq -r '.secretName')
@@ -41,13 +42,19 @@ while true; do
       fi
 
       echo "$BASE64_DATA" | base64 -d > "$DEST" || { echo "[sync-certs] base64 decoding failed for $NAME"; continue; }
-
-      CERT_CONTENT=$(cat "$DEST")
-      if ! grep -Fq "$CERT_CONTENT" "$CERT_DIR/chain.pem" 2>/dev/null; then
-        echo "$CERT_CONTENT" >> "$CERT_DIR/chain.pem"
-        echo "" >> "$CERT_DIR/chain.pem"
-      fi
     done < <(echo "$CERT_LIST_JSON" | jq -c '.[]')
+
+    cat "$CERT_DIR"/*.pem > "$CERT_DIR/tmp_chain.pem"
+    awk 'BEGIN {c=0} /BEGIN CERT/ {c++} {print > ("/tmp/cert" c ".pem")}' "$CERT_DIR/tmp_chain.pem"
+    rm -f "$CERT_DIR/chain.pem"
+    for f in /tmp/cert*.pem; do
+      sum=$(openssl x509 -in "$f" -noout -fingerprint -sha256)
+      if ! grep -q "$sum" "$CERT_DIR/chain.pem.fingerprints" 2>/dev/null; then
+        cat "$f" >> "$CERT_DIR/chain.pem"
+        echo "$sum" >> "$CERT_DIR/chain.pem.fingerprints"
+      fi
+    done
+    rm -f /tmp/cert*.pem "$CERT_DIR/tmp_chain.pem"
   else
     echo "[sync-certs] WARNING: Kubernetes API not reachable, skipping cert sync."
     SKIP=true
