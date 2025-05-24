@@ -86,19 +86,35 @@ document.addEventListener("DOMContentLoaded", function() {
     mobileLabel.innerHTML = "<strong>iOS/macOS Mobile:</strong>";
   }
 
-  certs
+  const sortedCerts = certs
     .filter(name => name.endsWith(".pem") && name !== "tmp_chain.pem" && name !== "chain.pem.fingerprints")
-    .forEach(name => {
-      const baseName = name.replace(/\.pem$/, "");
-      const li = document.createElement("li");
-      li.className = "list-group-item bg-body text-body";
-      const a = document.createElement("a");
-      a.href = `${baseUrl}/certs/${name}`;
-      a.className = baseName === "chain" ? "btn btn-primary btn-sm" : "btn btn-secondary btn-sm";
-      a.textContent = `Download ${baseName.charAt(0).toUpperCase() + baseName.slice(1)} Certificate`;
-      li.appendChild(a);
-      downloadList.appendChild(li);
+    .sort((a, b) => {
+      if (a === "chain.pem") return -1;
+      if (b === "chain.pem") return 1;
+      const isARoot = a.toLowerCase().includes("root");
+      const isBRoot = b.toLowerCase().includes("root");
+      if (isARoot && !isBRoot) return -1;
+      if (!isARoot && isBRoot) return 1;
+      return a.localeCompare(b);
     });
+
+  let insertedHr = false;
+  sortedCerts.forEach((name, index) => {
+    const baseName = name.replace(/\.pem$/, "");
+    if (!insertedHr && index > 0 && name.toLowerCase().includes("root")) {
+      const hr = document.createElement("hr");
+      downloadList.appendChild(hr);
+      insertedHr = true;
+    }
+    const li = document.createElement("li");
+    li.className = "list-group-item bg-body text-body";
+    const a = document.createElement("a");
+    a.href = `${baseUrl}/certs/${name}`;
+    a.className = baseName === "chain" ? "btn btn-primary btn-sm" : "btn btn-secondary btn-sm";
+    a.textContent = `Download ${baseName.charAt(0).toUpperCase() + baseName.slice(1)} Certificate`;
+    li.appendChild(a);
+    downloadList.appendChild(li);
+  });
 });
 </script>
 </body>
