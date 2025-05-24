@@ -84,6 +84,11 @@ while true; do
     envsubst '${PORTAL_DOMAIN} ${CA_CERT_BASE64}' < /usr/share/nginx/html/scripts/install.mobileconfig.tmpl > /usr/share/nginx/html/scripts/install.mobileconfig
   fi
 
+  # Inject certificate list for frontend
+  echo "Injecting certificate list for frontend..."
+  CERT_LIST=$(ls /usr/share/nginx/html/certs/*.pem | xargs -n1 basename | tr '\n' ',' | sed 's/,$//')
+  echo "<script>window.CERT_LIST = \"$CERT_LIST\";</script>" > /usr/share/nginx/html/scripts/cert-list.js
+
   echo "[sync-certs] Sleeping ${SYNC_INTERVAL_SECONDS} seconds..."
   sleep "$SYNC_INTERVAL_SECONDS"
 done
