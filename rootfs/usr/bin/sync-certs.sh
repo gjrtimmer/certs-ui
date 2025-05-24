@@ -44,10 +44,10 @@ while true; do
 
       echo "$BASE64_DATA" | base64 -d > "$DEST" || { echo "[sync-certs] base64 decoding failed for $NAME"; continue; }
       echo "[sync-certs] Wrote $(wc -c < "$DEST") bytes to $DEST"
-      grep -qFxf "$DEST" "$CERT_DIR/chain.pem" || {
+      if ! grep -Fq "$(openssl x509 -in "$DEST" -noout -serial)" "$CERT_DIR/chain.pem" 2>/dev/null; then
         cat "$DEST" >> "$CERT_DIR/chain.pem"
         echo "" >> "$CERT_DIR/chain.pem"
-      }
+      fi
     done < <(echo "$CERT_LIST_JSON" | jq -c '.[]')
   else
     echo "[sync-certs] WARNING: Kubernetes API not reachable, skipping cert sync."
