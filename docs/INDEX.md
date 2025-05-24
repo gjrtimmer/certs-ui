@@ -51,12 +51,17 @@ When setting up the `Ingress` or `IngressRoute` (Traefik) ensure that you are se
 
 ```yaml
 options:
-  portalScheme: https
+  portalScheme: http
   portalDomain: certs.k3s
-  certSecretName: internal-ca
-  certSecretKey: ca.crt
   certNamespace: cert-manager
   syncIntervalSeconds: 300
+  certs:
+    - name: root
+      secretName: k3s-root-ca-secret
+      secretKey: ca.crt
+    - name: intermediate1
+      secretName: k3s-intermediate-secret
+      secretKey: tls.crt
 ```
 
 ##### Ingress
@@ -77,12 +82,17 @@ ingress:
           pathType: ImplementationSpecific
 
 options:
-  portalScheme: https
+  portalScheme: http
   portalDomain: certs.k3s
-  certSecretName: internal-ca
-  certSecretKey: ca.crt
   certNamespace: cert-manager
   syncIntervalSeconds: 300
+  certs:
+    - name: root
+      secretName: k3s-root-ca-secret
+      secretKey: ca.crt
+    - name: intermediate1
+      secretName: k3s-intermediate-secret
+      secretKey: tls.crt
 ```
 
 ##### Traefik IngressRoute
