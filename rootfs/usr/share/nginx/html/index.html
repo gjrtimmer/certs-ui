@@ -88,22 +88,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
   const downloadList = document.getElementById("cert-downloads");
 
-  fetch("/certs/index.json")
-    .then(response => response.json())
-    .then(certs => {
-      certs
-        .filter(name => name.endsWith(".pem") && name !== "tmp_chain.pem" && name !== "chain.pem.fingerprints")
-        .forEach(name => {
-          const baseName = name.replace(/\.pem$/, "");
-          const li = document.createElement("li");
-          li.className = "list-group-item bg-body text-body";
-          const a = document.createElement("a");
-          a.href = `${baseUrl}/certs/${name}`;
-          a.className = baseName === "chain" ? "btn btn-primary btn-sm" : "btn btn-secondary btn-sm";
-          a.textContent = `Download ${baseName.charAt(0).toUpperCase() + baseName.slice(1)} Certificate`;
-          li.appendChild(a);
-          downloadList.appendChild(li);
-        });
+  const certs = (window.CERT_LIST || "").split(",").map(x => x.trim()).filter(Boolean);
+
+  certs
+    .filter(name => name.endsWith(".pem") && name !== "tmp_chain.pem" && name !== "chain.pem.fingerprints")
+    .forEach(name => {
+      const baseName = name.replace(/\.pem$/, "");
+      const li = document.createElement("li");
+      li.className = "list-group-item bg-body text-body";
+      const a = document.createElement("a");
+      a.href = `${baseUrl}/certs/${name}`;
+      a.className = baseName === "chain" ? "btn btn-primary btn-sm" : "btn btn-secondary btn-sm";
+      a.textContent = `Download ${baseName.charAt(0).toUpperCase() + baseName.slice(1)} Certificate`;
+      li.appendChild(a);
+      downloadList.appendChild(li);
     });
 });
 </script>
