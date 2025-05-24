@@ -24,14 +24,22 @@ while true; do
       NAME=$(echo "$cert" | jq -r '.name')
       SECRET=$(echo "$cert" | jq -r '.secretName')
       KEY=$(echo "$cert" | jq -r '.secretKey')
+      NAMESPACE=$(echo "$cert" | jq -r '.namespace // env.CERT_NAMESPACE')
 
       DEST="$CERT_DIR/${NAME}.pem"
       echo "[sync-certs] Fetching $NAME from $SECRET:$KEY"
-      if kubectl get secret "$SECRET" -n "$CERT_NAMESPACE" -o "jsonpath={.data.${KEY}}" 2>/dev/null | base64 -d > "$DEST"; then
+      BASE64_DATA=$(kubectl get secret "$SECRET" -n "$NAMESPACE" -o "jsonpath={.data.${KEY}}" 2>&1)
+      if echo "$BASE64_DATA" | grep -q "Error"; then
+        echo "[sync-certs] ERROR: $BASE64_DATA"
+        continue
+      fi
+      if [[ -n "$BASE64_DATA" ]]; then
+        echo "$BASE64_DATA" | base64 -d > "$DEST" || echo "[sync-certs] base64 decoding failed for $NAME"
+        echo "[sync-certs] Wrote $(wc -c < "$DEST") bytes to $DEST"
         cat "$DEST" >> "$CERT_DIR/chain.pem"
         echo "" >> "$CERT_DIR/chain.pem"
       else
-        echo "[sync-certs] Failed to fetch $NAME"
+        echo "[sync-certs] No data found for $NAME from $SECRET in $NAMESPACE"
       fi
     done < <(echo "$CERT_LIST_JSON" | jq -c '.[]')
   else
