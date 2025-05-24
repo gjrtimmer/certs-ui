@@ -42,7 +42,16 @@ while true; do
       fi
 
       echo "$BASE64_DATA" | base64 -d > "$DEST" || { echo "[sync-certs] base64 decoding failed for $NAME"; continue; }
+      echo >> "$DEST"
     done < <(echo "$CERT_LIST_JSON" | jq -c '.[]')
+
+    # Wait for all cert files to exist and be non-empty
+    for cert in "$CERT_DIR"/*.pem; do
+      while [[ ! -s "$cert" ]]; do
+        echo "[sync-certs] Waiting for $cert to be ready..."
+        sleep 1
+      done
+    done
 
     # Concatenate all certs to a temp file
     cat "$CERT_DIR"/*.pem > "$CERT_DIR/tmp_chain.pem"
