@@ -1,3 +1,15 @@
+## **2.0.1**&emsp;<sub><sup>2026-06-07 ([061fdd1...5115445](https://github.com/gjrtimmer/certs-ui/compare/061fdd1bbe16541c9db1ab31b402b54d58567e96...5115445c042dcfa002a60f6fd0b4829e30397bf8?diff=split))</sup></sub>
+
+### chart
+
+- 2\.0\.0 ([061fdd1](https://github.com/gjrtimmer/certs-ui/commit/061fdd1bbe16541c9db1ab31b402b54d58567e96))
+
+### Bug Fixes
+
+- add middlewares and priority to ingress route ([5115445](https://github.com/gjrtimmer/certs-ui/commit/5115445c042dcfa002a60f6fd0b4829e30397bf8))
+
+<br>
+
 ## **2.0.0**&emsp;<sub><sup>2025-05-24 ([8643ac0...32c0d79](https://github.com/gjrtimmer/certs-ui/compare/8643ac0d44e72ae99d4b6a23318306fed7006e2b...32c0d79e48f6e3fddec89f03627d89c4bc66999e?diff=split))</sup></sub>
 
 ### chart
