@@ -23,7 +23,10 @@ spec:
   routes:
     - match: Host(`{{ (index .Values.ingress.hosts 0).host }}`)
       kind: Rule
+      {{- with .Values.ingress.traefik.middlewares }}
       middlewares:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- if .Values.ingress.traefik.priority }}
       priority: {{ .Values.ingress.traefik.priority }}
       {{- end }}
